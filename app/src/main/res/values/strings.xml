@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PDFReader</string>
+    <string name="create_new_pdf">Create New PDF</string>
+    <string name="open_pdf">Open PDF</string>
 </resources>
