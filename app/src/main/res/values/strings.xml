@@ -7,4 +7,5 @@
     <string name="minutes_of_the_meeting">MINUTES OF THE MEETING</string>
     <string name="content">Content</string>
     <string name="this_is_where_you_type">This is where you type ... *</string>
+    <string name="pdf_read_container">PDF Read Container</string>
 </resources>

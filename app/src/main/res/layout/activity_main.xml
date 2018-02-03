@@ -5,7 +5,19 @@
     android:id="@+id/constraint_main_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.madhouseapps.pdfreader.MainActivity">
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/main_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/pdf_read_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <ImageView
         android:id="@+id/pdf_read_icon"
@@ -37,8 +49,9 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:id="@+id/fab_create_pdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:src="@drawable/ic_create"
         android:tint="@color/darkerPrimary"
