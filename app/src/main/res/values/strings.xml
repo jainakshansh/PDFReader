@@ -2,4 +2,9 @@
     <string name="app_name">PDFReader</string>
     <string name="create_new_pdf">Create New PDF</string>
     <string name="open_pdf">Open PDF</string>
+    <string name="tap_to_open">Tap to open</string>
+    <string name="pdf_title">PDF Title</string>
+    <string name="minutes_of_the_meeting">MINUTES OF THE MEETING</string>
+    <string name="content">Content</string>
+    <string name="this_is_where_you_type">This is where you type ... *</string>
 </resources>
