@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView bookIcon;
     private PDFView pdfView;
+    private static final int READ_REQUEST_CODE = 6;
 
     /*
    These variables are for requesting permissions at run-time.
@@ -93,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
         pdfView = findViewById(R.id.pdfView);
         pdfView.setVisibility(View.VISIBLE);
 
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("application/pdf");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, 1212);
+        Intent readIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        readIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        readIntent.setType("application/pdf");
+        startActivityForResult(readIntent, READ_REQUEST_CODE);
     }
 
     private void permissionCodeLogic() {
@@ -186,10 +188,19 @@ public class MainActivity extends AppCompatActivity {
                 render();
             }
         }
-        if (requestCode == 1212) {
-            if (resultCode == RESULT_OK) {
-                Uri uri = data.getData();
-                pdfView.fromUri(uri);
+        if (requestCode == READ_REQUEST_CODE && resultCode == RESULT_OK) {
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
+                pdfView.fromUri(uri)
+                        .enableSwipe(true)
+                        .swipeHorizontal(false)
+                        .enableDoubletap(true)
+                        .password(null)
+                        .scrollHandle(null)
+                        .spacing(0)
+                        .pageFitPolicy(FitPolicy.WIDTH)
+                        .load();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

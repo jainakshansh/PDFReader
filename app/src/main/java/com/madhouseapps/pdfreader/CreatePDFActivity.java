@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,5 +30,11 @@ public class CreatePDFActivity extends AppCompatActivity {
         contentInput = findViewById(R.id.pdf_content_input);
         contentInput.setTypeface(avenir);
         fabSavePDF = findViewById(R.id.fab_save_pdf);
+
+        fabSavePDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
     }
 }
