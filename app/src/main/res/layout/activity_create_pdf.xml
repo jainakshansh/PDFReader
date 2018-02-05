@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:padding="24dp"
     tools:context="com.madhouseapps.pdfreader.CreatePDFActivity">
 
     <TextView
         android:id="@+id/pdf_title_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/pdf_title"
         android:textAllCaps="true"
         android:textColor="@color/darkerPrimary"
@@ -24,6 +26,8 @@
         android:id="@+id/pdf_title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@android:color/white"
         android:hint="@string/minutes_of_the_meeting"
@@ -38,6 +42,8 @@
         android:id="@+id/pdf_content_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/content"
         android:textAllCaps="true"
@@ -51,11 +57,14 @@
         android:id="@+id/pdf_content_input"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:backgroundTint="@android:color/white"
         android:gravity="start"
         android:hint="@string/this_is_where_you_type"
-        android:inputType="text|textCapCharacters"
+        android:inputType="text|textAutoCorrect|textAutoComplete|textMultiLine"
         android:textAllCaps="true"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,5 +72,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pdf_content_label"
         app:layout_constraintVertical_bias="0" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_save_pdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

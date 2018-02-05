@@ -5,14 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.pdf.PdfRenderer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +16,6 @@ import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,7 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.github.barteksc.pdfviewer.PDFView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabCreate;
     private Button tapToOpen;
 
-    private ImageView readPDF, bookIcon;
-
-    private static final int READ_REQUEST_CODE = 9;
+    private ImageView bookIcon;
+    private PDFView pdfView;
 
     /*
    These variables are for requesting permissions at run-time.
@@ -97,25 +90,13 @@ public class MainActivity extends AppCompatActivity {
         fabCreate.setVisibility(View.GONE);
         tapToOpen.setVisibility(View.GONE);
         bookIcon.setVisibility(View.GONE);
-        try {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            readPDF = findViewById(R.id.main_image_container);
-            int width = (int) displayMetrics.xdpi;
-            int height = (int) displayMetrics.ydpi;
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
-            File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Download/Akshansh Jain.pdf");
-            PdfRenderer pdfRenderer = new PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+        pdfView = findViewById(R.id.pdfView);
+        pdfView.setVisibility(View.VISIBLE);
 
-            Matrix matrix = readPDF.getImageMatrix();
-            Rect rect = new Rect(0, 0, width, height);
-            pdfRenderer.openPage(0).render(bitmap, rect, matrix, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            readPDF.setImageMatrix(matrix);
-            readPDF.setImageBitmap(bitmap);
-            readPDF.invalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("application/pdf");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, 1212);
     }
 
     private void permissionCodeLogic() {
@@ -150,12 +131,8 @@ public class MainActivity extends AppCompatActivity {
             /*
             Calling the function to be performed if the permissions have already been provided.
              */
-            proceedAfterPermission();
+            render();
         }
-    }
-
-    private void proceedAfterPermission() {
-        render();
     }
 
     @Override
@@ -174,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (allGranted) {
-                proceedAfterPermission();
+                render();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permissionsRequired[0])
                     || ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permissionsRequired[1])
                     /*|| ActivityCompat.shouldShowRequestPermissionRationale(LandingActivity.this, permissionsRequired[2])*/) {
@@ -203,13 +180,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PERMISSION_SETTINGS) {
             if (ActivityCompat.checkSelfPermission(MainActivity.this, permissionsRequired[0]) == PackageManager.PERMISSION_GRANTED) {
                 //After getting the permissions.
-                proceedAfterPermission();
+                render();
             }
         }
+        if (requestCode == 1212) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                pdfView.fromUri(uri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -220,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 /*
                 After getting the permissions.
                  */
-                proceedAfterPermission();
+                render();
             }
         }
     }
