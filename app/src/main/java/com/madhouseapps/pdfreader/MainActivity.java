@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -29,13 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Typeface avenir;
 
-    private ConstraintLayout constraintLayoutParent;
     private FloatingActionButton fabCreate;
     private Button tapToOpen;
     private ImageView bookIcon;
     private PDFView pdfView;
 
     private static final int READ_REQUEST_CODE = 6;
+
+    private TextView recent1, recent2, recent3, recent4;
 
     /*
    These variables are for requesting permissions at run-time.
@@ -65,11 +67,22 @@ public class MainActivity extends AppCompatActivity {
          */
         permissionStatus = getSharedPreferences("permissionStatus", MODE_PRIVATE);
 
-        constraintLayoutParent = findViewById(R.id.constraint_main_parent);
         bookIcon = findViewById(R.id.pdf_read_icon);
         avenir = Typeface.createFromAsset(getAssets(), "fonts/Avenir-Book.ttf");
         tapToOpen = findViewById(R.id.tap_to_open_pdf);
         tapToOpen.setTypeface(avenir);
+
+        /*
+        Recent referencing and getting the recent files that were opened.
+         */
+        recent1 = findViewById(R.id.recent_one);
+        recent1.setTypeface(avenir, Typeface.BOLD);
+        recent2 = findViewById(R.id.recent_two);
+        recent2.setTypeface(avenir, Typeface.BOLD);
+        recent3 = findViewById(R.id.recent_three);
+        recent3.setTypeface(avenir, Typeface.BOLD);
+        recent4 = findViewById(R.id.recent_four);
+        recent4.setTypeface(avenir, Typeface.BOLD);
 
         fabCreate = findViewById(R.id.fab_create_pdf);
         fabCreate.setOnClickListener(new View.OnClickListener() {
@@ -79,18 +92,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        constraintLayoutParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                permissionCodeLogic();
-            }
-        });
         tapToOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 permissionCodeLogic();
             }
         });
+
+        recentFiles(null);
     }
 
     private void render() {
@@ -136,8 +145,126 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void recentFiles(Uri uri) {
+        String res1 = null, res2 = null, res3 = null, res4 = null;
+        if (uri != null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            res1 = preferences.getString("recentOne", null);
+            res2 = preferences.getString("recentTwo", null);
+            res3 = preferences.getString("recentThree", null);
+            res4 = preferences.getString("recentFour", null);
+
+            res4 = res3;
+            res3 = res2;
+            res2 = res1;
+            res1 = uri.toString();
+
+            editor.putString("recentOne", res1);
+            editor.putString("recentTwo", res2);
+            editor.putString("recentThree", res3);
+            editor.putString("recentFour", res4);
+            editor.apply();
+
+            final String finalRes = res1;
+            recent1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes1 = res2;
+            recent2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes1);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes2 = res3;
+            recent3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes2);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes3 = res4;
+            recent4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes3);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            res1 = preferences.getString("recentOne", null);
+            res2 = preferences.getString("recentTwo", null);
+            res3 = preferences.getString("recentThree", null);
+            res4 = preferences.getString("recentFour", null);
+
+            final String finalRes = res1;
+            recent1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes1 = res2;
+            recent2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes1);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes2 = res3;
+            recent3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes2);
+                    startActivity(intent);
+                }
+            });
+            final String finalRes3 = res4;
+            recent4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                    intent.putExtra("fileUri", finalRes3);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        if (res1 != null) {
+            recent1.setBackgroundResource(R.drawable.pdf_book);
+        }
+        if (res2 != null) {
+            recent2.setBackgroundResource(R.drawable.pdf_book);
+        }
+        if (res3 != null) {
+            recent3.setBackgroundResource(R.drawable.pdf_book);
+        }
+        if (res4 != null) {
+            recent4.setBackgroundResource(R.drawable.pdf_book);
+        }
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_CALLBACK_CONSTANT) {
             //Checking if all permissions are granted.
@@ -193,6 +320,10 @@ public class MainActivity extends AppCompatActivity {
                 uri = data.getData();
                 Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                 intent.putExtra("fileUri", uri.toString());
+                recentFiles(uri);
+                if (uri.getScheme().equals("file")) {
+                    Toast.makeText(this, uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+                }
                 startActivity(intent);
             }
         }
