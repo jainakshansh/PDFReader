@@ -321,9 +321,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                 intent.putExtra("fileUri", uri.toString());
                 recentFiles(uri);
-                if (uri.getScheme().equals("file")) {
-                    Toast.makeText(this, uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-                }
                 startActivity(intent);
             }
         }
