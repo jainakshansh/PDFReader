@@ -22,7 +22,9 @@
         <activity
             android:name=".CreatePDFActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ReadingActivity"></activity>
+        <activity
+            android:name=".ReadingActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

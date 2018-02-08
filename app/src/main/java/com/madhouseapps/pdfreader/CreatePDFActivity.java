@@ -80,7 +80,11 @@ public class CreatePDFActivity extends AppCompatActivity {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss");
                 String pdfName = titleInput.getText().toString() + sdf.format(Calendar.getInstance().getTime()) + ".pdf";
-                createFile(document, pdfName);
+                if (!contentInput.getText().toString().isEmpty()) {
+                    createFile(document, pdfName);
+                } else {
+                    Toast.makeText(CreatePDFActivity.this, "Cannot save empty PDF file!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
