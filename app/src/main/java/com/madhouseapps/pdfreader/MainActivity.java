@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = preferences.edit();
             res1 = preferences.getString("recentOne", null);
             res2 = preferences.getString("recentTwo", null);
             res3 = preferences.getString("recentThree", null);
@@ -214,36 +213,52 @@ public class MainActivity extends AppCompatActivity {
             recent1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
-                    intent.putExtra("fileUri", finalRes);
-                    startActivity(intent);
+                    if (finalRes != null) {
+                        Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                        intent.putExtra("fileUri", finalRes);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             final String finalRes1 = res2;
             recent2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
-                    intent.putExtra("fileUri", finalRes1);
-                    startActivity(intent);
+                    if (finalRes1 != null) {
+                        Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                        intent.putExtra("fileUri", finalRes1);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             final String finalRes2 = res3;
             recent3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
-                    intent.putExtra("fileUri", finalRes2);
-                    startActivity(intent);
+                    if (finalRes2 != null) {
+                        Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                        intent.putExtra("fileUri", finalRes2);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             final String finalRes3 = res4;
             recent4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
-                    intent.putExtra("fileUri", finalRes3);
-                    startActivity(intent);
+                    if (finalRes3 != null) {
+                        Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                        intent.putExtra("fileUri", finalRes3);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

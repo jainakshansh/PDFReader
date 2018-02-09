@@ -63,24 +63,11 @@ public class CreatePDFActivity extends AppCompatActivity {
                 Canvas canvas = page.getCanvas();
                 contentInput.draw(canvas);
 
-                //TODO This code block serves black screen in the output. Please debug asap!
-                /*
-                Paint paint = new Paint();
-                canvas.drawPaint(paint);
-                paint.setColor(Color.BLACK);
-                paint.setTextSize(16);
-                paint.setTextAlign(Paint.Align.LEFT);
-                paint.setTypeface(avenir);
-                int titlePosHor = width / 2;
-                canvas.drawText(titleInput.getText().toString(), titlePosHor, 48, paint);
-                canvas.drawText(contentInput.getText().toString(), 48, 96, paint);
-                */
-
                 document.finishPage(page);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss");
                 String pdfName = titleInput.getText().toString() + sdf.format(Calendar.getInstance().getTime()) + ".pdf";
-                if (!contentInput.getText().toString().isEmpty()) {
+                if (!contentInput.getText().toString().trim().isEmpty()) {
                     createFile(document, pdfName);
                 } else {
                     Toast.makeText(CreatePDFActivity.this, "Cannot save empty PDF file!", Toast.LENGTH_SHORT).show();

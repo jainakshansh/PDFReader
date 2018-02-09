@@ -30,20 +30,24 @@ public class ReadingActivity extends AppCompatActivity {
 
         Intent uriIntent = getIntent();
         pdfView = findViewById(R.id.pdfView);
-        if (uriIntent.getExtras() != null) {
+        if (uriIntent.getAction() != null) {
+            if (Intent.ACTION_VIEW.equals(uriIntent.getAction())) {
+                fileUri = uriIntent.getData().toString();
+            }
+        } else if (uriIntent.getExtras() != null) {
             fileUri = uriIntent.getStringExtra("fileUri");
-            pdfView.fromUri(Uri.parse(fileUri))
-                    .enableSwipe(true)
-                    .swipeHorizontal(false)
-                    .enableDoubletap(true)
-                    .password(null)
-                    .scrollHandle(null)
-                    .spacing(0)
-                    .pageFitPolicy(FitPolicy.WIDTH)
-                    .load();
         } else {
             Toast.makeText(this, "File Not Found!", Toast.LENGTH_SHORT).show();
         }
+        pdfView.fromUri(Uri.parse(fileUri))
+                .enableSwipe(true)
+                .swipeHorizontal(false)
+                .enableDoubletap(true)
+                .password(null)
+                .scrollHandle(null)
+                .spacing(0)
+                .pageFitPolicy(FitPolicy.WIDTH)
+                .load();
     }
 
     @Override
