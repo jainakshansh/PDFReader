@@ -230,9 +230,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             res1 = preferences.getString("recentOne", null);
+            title1 = preferences.getString("title1", null);
             res2 = preferences.getString("recentTwo", null);
+            title2 = preferences.getString("title2", null);
             res3 = preferences.getString("recentThree", null);
+            title3 = preferences.getString("title3", null);
             res4 = preferences.getString("recentFour", null);
+            title4 = preferences.getString("title4", null);
 
             final String finalRes = res1;
             recent1.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("fileUri", finalRes);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -256,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("fileUri", finalRes1);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -269,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("fileUri", finalRes2);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -282,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("fileUri", finalRes3);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "No files opened recently!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
