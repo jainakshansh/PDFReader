@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 6;
 
     private TextView recent1, recent2, recent3, recent4;
+    private TextView titleOne, titleTwo, titleThree, titleFour;
 
     /*
    These variables are for requesting permissions at run-time.
@@ -84,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         recent4 = findViewById(R.id.recent_four);
         recent4.setTypeface(avenir, Typeface.BOLD);
 
+        titleOne = findViewById(R.id.recent_one_title);
+        titleOne.setTypeface(avenir);
+        titleTwo = findViewById(R.id.recent_two_title);
+        titleTwo.setTypeface(avenir);
+        titleThree = findViewById(R.id.recent_three_title);
+        titleThree.setTypeface(avenir);
+        titleFour = findViewById(R.id.recent_four_title);
+        titleFour.setTypeface(avenir);
+
         fabCreate = findViewById(R.id.fab_create_pdf);
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recentFiles(null);
+        recentFiles(null, null);
     }
 
     private void render() {
@@ -145,25 +157,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void recentFiles(Uri uri) {
+    private void recentFiles(Uri uri, String title) {
         String res1 = null, res2 = null, res3 = null, res4 = null;
+        String title1 = null, title2 = null, title3 = null, title4 = null;
         if (uri != null) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();
             res1 = preferences.getString("recentOne", null);
+            title1 = preferences.getString("title1", null);
             res2 = preferences.getString("recentTwo", null);
+            title2 = preferences.getString("title2", null);
             res3 = preferences.getString("recentThree", null);
+            title3 = preferences.getString("title3", null);
             res4 = preferences.getString("recentFour", null);
+            title4 = preferences.getString("title4", null);
 
             res4 = res3;
             res3 = res2;
             res2 = res1;
             res1 = uri.toString();
+            title4 = title3;
+            title3 = title2;
+            title2 = title1;
+            title1 = title;
 
             editor.putString("recentOne", res1);
+            editor.putString("title1", title1);
             editor.putString("recentTwo", res2);
+            editor.putString("title2", title2);
             editor.putString("recentThree", res3);
+            editor.putString("title3", title3);
             editor.putString("recentFour", res4);
+            editor.putString("title4", title4);
             editor.apply();
 
             final String finalRes = res1;
@@ -275,6 +300,19 @@ public class MainActivity extends AppCompatActivity {
         if (res4 != null) {
             recent4.setBackgroundResource(R.drawable.pdf_book);
         }
+
+        if (title1 != null) {
+            titleOne.setText(title1);
+        }
+        if (title2 != null) {
+            titleTwo.setText(title2);
+        }
+        if (title3 != null) {
+            titleThree.setText(title3);
+        }
+        if (title4 != null) {
+            titleFour.setText(title4);
+        }
     }
 
     @Override
@@ -335,7 +373,13 @@ public class MainActivity extends AppCompatActivity {
                 uri = data.getData();
                 Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                 intent.putExtra("fileUri", uri.toString());
-                recentFiles(uri);
+
+                Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
+                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                returnCursor.moveToFirst();
+                String title = returnCursor.getString(nameIndex);
+
+                recentFiles(uri, title);
                 startActivity(intent);
             }
         }
