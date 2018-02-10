@@ -1,5 +1,6 @@
 package com.madhouseapps.pdfreader;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
@@ -88,6 +89,12 @@ public class CreatePDFActivity extends AppCompatActivity {
             fos = new FileOutputStream(outputFile);
             document.writeTo(fos);
             Toast.makeText(CreatePDFActivity.this, "File created successfully!", Toast.LENGTH_SHORT).show();
+
+            //Opening the recently saved file.
+            Intent openIntent = new Intent(getApplicationContext(), ReadingActivity.class);
+            openIntent.putExtra("fileUri", outputFile.toURI().toString());
+            startActivity(openIntent);
+
             finish();
         } catch (IOException e) {
             Toast.makeText(this, "File creation failed!", Toast.LENGTH_SHORT).show();
