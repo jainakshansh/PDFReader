@@ -26,16 +26,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.barteksc.pdfviewer.PDFView;
-
 public class MainActivity extends AppCompatActivity {
 
     private Typeface avenir;
 
     private FloatingActionButton fabCreate;
-    private Button tapToOpen;
+    private Button tapToOpen, allFiles;
     private ImageView bookIcon;
-    private PDFView pdfView;
 
     private static final int READ_REQUEST_CODE = 6;
 
@@ -74,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         avenir = Typeface.createFromAsset(getAssets(), "fonts/Avenir-Book.ttf");
         tapToOpen = findViewById(R.id.tap_to_open_pdf);
         tapToOpen.setTypeface(avenir);
+        allFiles = findViewById(R.id.show_all_files);
+        allFiles.setTypeface(avenir);
 
         /*
         Recent referencing and getting the recent files that were opened.
@@ -108,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 permissionCodeLogic();
+            }
+        });
+
+        allFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
             }
         });
 

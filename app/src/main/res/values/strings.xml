@@ -8,4 +8,5 @@
     <string name="content">Content</string>
     <string name="this_is_where_you_type">This is where you type ... *</string>
     <string name="pdf_read_container">PDF Read Container</string>
+    <string name="all_files">All Files</string>
 </resources>

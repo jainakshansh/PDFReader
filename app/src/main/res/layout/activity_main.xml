@@ -155,6 +155,20 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <Button
+        android:id="@+id/show_all_files"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:text="@string/all_files"
+        android:textColor="@color/darkerPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_create_pdf"
         android:layout_width="56dp"

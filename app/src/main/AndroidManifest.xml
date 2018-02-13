@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.madhouseapps.pdfreader">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -34,13 +33,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:mimeType="application/pdf"
-                    android:pathPattern=".*\\.pdf"
-                    android:scheme="file"
-                    tools:ignore="AppLinkUrlError" />
+                <data android:mimeType="application/pdf" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.pdf" />
+                <data android:scheme="file" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AllFilesActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
