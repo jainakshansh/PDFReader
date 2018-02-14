@@ -18,4 +18,5 @@
     <string name="nav_drawer_close">Close</string>
     <string name="pdf_reader">PDF Reader</string>
     <string name="select_image">Select Image</string>
+    <string name="convert_to_pdf">Convert to PDF</string>
 </resources>

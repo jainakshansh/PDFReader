@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
                         break;
                     case R.id.image_to_pdf:
+                        startActivity(new Intent(getApplicationContext(), ImageToPDFActivity.class));
                         break;
                     case R.id.rate_app:
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.madhouseapps.pdfreader")));
