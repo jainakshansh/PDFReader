@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         allFiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
                 permissionCodeLogic();
                 startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
             }

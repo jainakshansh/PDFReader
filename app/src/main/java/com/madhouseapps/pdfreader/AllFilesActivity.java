@@ -3,6 +3,7 @@ package com.madhouseapps.pdfreader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,10 +21,6 @@ public class AllFilesActivity extends AppCompatActivity {
     private List<FileInfo> fileInfoList;
     private FileAdapter fileAdapter;
 
-    private String pdfPattern = ".pdf";
-    File[] filesList;
-    private String dir;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +29,14 @@ public class AllFilesActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_all_files);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("All Files");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         listView = findViewById(R.id.list_view_all_files);
         fileInfoList = new ArrayList<>();
-        fileAdapter = new FileAdapter(this, fileInfoList);
+        fileAdapter = new FileAdapter(AllFilesActivity.this, fileInfoList);
         listView.setAdapter(fileAdapter);
-
-        dir = Environment.getExternalStorageDirectory().getAbsolutePath();
-        walkDir(dir);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,21 +46,25 @@ public class AllFilesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                initList(Environment.getExternalStorageDirectory().getAbsolutePath());
+            }
+        });
     }
 
-    private void walkDir(String dir) {
+    private void initList(String path) {
         try {
-            File file = new File(dir);
-            filesList = file.listFiles();
-
-            if (filesList != null) {
-                for (int i = 0; i < filesList.length; i++) {
-                    if (filesList[i].isDirectory()) {
-                        walkDir(filesList[i].getAbsolutePath());
-                    } else {
-                        if (filesList[i].getName().endsWith(pdfPattern)) {
-                            fileInfoList.add(new FileInfo(filesList[i].getName(), filesList[i].getAbsolutePath()));
-                        }
+            File file = new File(path);
+            File[] fileArr = file.listFiles();
+            for (File file1 : fileArr) {
+                if (file1.isDirectory()) {
+                    initList(file1.getAbsolutePath());
+                } else {
+                    if (file1.getName().endsWith(".pdf")) {
+                        fileInfoList.add(new FileInfo(file1.getName(), file1.toURI().toString()));
                     }
                 }
             }

@@ -35,7 +35,7 @@
 
                 <data android:mimeType="application/pdf" />
                 <data android:host="*" />
-                <data android:pathPattern=".*\\.pdf" />
+                <data android:pathPattern="[0-9]+[.][0-9A-Za-z]+[.][Pp][Dd][Ff]" />
                 <data android:scheme="file" />
             </intent-filter>
         </activity>
