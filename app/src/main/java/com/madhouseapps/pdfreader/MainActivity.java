@@ -13,25 +13,32 @@ import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Typeface avenir;
 
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
     private FloatingActionButton fabCreate;
-    private Button tapToOpen, allFiles;
+    private Button tapToOpen;
     private ImageView bookIcon;
 
     private static final int READ_REQUEST_CODE = 6;
@@ -56,12 +63,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Setting up the activity for full screen mode.
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("PDF Reader : MadHouse");
+        }
         /*
         Reading the permission status stored in the shared preferences.
          */
@@ -71,8 +79,36 @@ public class MainActivity extends AppCompatActivity {
         avenir = Typeface.createFromAsset(getAssets(), "fonts/Avenir-Book.ttf");
         tapToOpen = findViewById(R.id.tap_to_open_pdf);
         tapToOpen.setTypeface(avenir);
-        allFiles = findViewById(R.id.show_all_files);
-        allFiles.setTypeface(avenir);
+
+        navigationView = findViewById(R.id.navigation_view_main);
+        drawerLayout = findViewById(R.id.drawer_layout_main);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.show_all_files:
+                        Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
+                        permissionCodeLogic();
+                        startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
+                        break;
+                    case R.id.image_to_pdf:
+                        break;
+                    case R.id.rate_app:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.madhouseapps.pdfreader")));
+                        break;
+                    case R.id.share_app:
+                        break;
+                    case R.id.more_apps:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=MadHouse")));
+                        break;
+                }
+                return true;
+            }
+        });
 
         /*
         Recent referencing and getting the recent files that were opened.
@@ -107,15 +143,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 permissionCodeLogic();
-            }
-        });
-
-        allFiles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
-                permissionCodeLogic();
-                startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
             }
         });
 
@@ -409,5 +436,11 @@ public class MainActivity extends AppCompatActivity {
                 render();
             }
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

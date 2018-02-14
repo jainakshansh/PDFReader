@@ -17,6 +17,7 @@ import java.util.List;
 public class AllFilesActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+
     private ListView listView;
     private List<FileInfo> fileInfoList;
     private FileAdapter fileAdapter;

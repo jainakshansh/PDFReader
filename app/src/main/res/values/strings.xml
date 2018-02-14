@@ -9,4 +9,11 @@
     <string name="this_is_where_you_type">This is where you type ... *</string>
     <string name="pdf_read_container">PDF Read Container</string>
     <string name="all_files">All Files</string>
+    <string name="image_to_pdf">Image To PDF</string>
+    <string name="rate_app">Rate App</string>
+    <string name="share_app">Share App</string>
+    <string name="support_us">Support Us</string>
+    <string name="more_from_developer">More from Developer</string>
+    <string name="nav_drawer_open">Open</string>
+    <string name="nav_drawer_close">Close</string>
 </resources>
