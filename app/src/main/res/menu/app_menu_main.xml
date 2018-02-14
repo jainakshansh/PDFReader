@@ -2,15 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="">
+    <item android:title="@string/pdf_reader">
         <menu>
             <item
+                android:id="@+id/fab_create_pdf"
+                android:icon="@drawable/ic_create"
+                android:title="Create PDF"
+                app:showAsAction="never" />
+
+            <item
                 android:id="@+id/show_all_files"
+                android:icon="@drawable/ic_search"
                 android:title="@string/all_files"
                 app:showAsAction="never" />
 
             <item
                 android:id="@+id/image_to_pdf"
+                android:icon="@drawable/ic_photo_camera"
                 android:title="@string/image_to_pdf"
                 app:showAsAction="never" />
         </menu>
@@ -20,16 +28,19 @@
         <menu>
             <item
                 android:id="@+id/rate_app"
+                android:icon="@drawable/ic_star"
                 android:title="@string/rate_app"
                 app:showAsAction="never" />
 
             <item
                 android:id="@+id/share_app"
+                android:icon="@drawable/ic_share"
                 android:title="@string/share_app"
                 app:showAsAction="never" />
 
             <item
                 android:id="@+id/more_apps"
+                android:icon="@drawable/ic_add_box"
                 android:title="@string/more_from_developer"
                 app:showAsAction="never" />
         </menu>

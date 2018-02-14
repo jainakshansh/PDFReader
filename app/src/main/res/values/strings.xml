@@ -16,4 +16,6 @@
     <string name="more_from_developer">More from Developer</string>
     <string name="nav_drawer_open">Open</string>
     <string name="nav_drawer_close">Close</string>
+    <string name="pdf_reader">PDF Reader</string>
+    <string name="select_image">Select Image</string>
 </resources>

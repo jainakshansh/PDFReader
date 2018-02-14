@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.fab_create_pdf:
+                        startActivity(new Intent(getApplicationContext(), CreatePDFActivity.class));
+                        break;
                     case R.id.show_all_files:
                         Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
                         permissionCodeLogic();
