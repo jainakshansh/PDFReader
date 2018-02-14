@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         allFiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permissionCodeLogic();
                 startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
             }
         });
