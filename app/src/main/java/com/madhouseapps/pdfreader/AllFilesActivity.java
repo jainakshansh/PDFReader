@@ -48,10 +48,20 @@ public class AllFilesActivity extends AppCompatActivity {
             }
         });
 
+        /*
         new Handler().post(new Runnable() {
             @Override
             public void run() {
                 initList(Environment.getExternalStorageDirectory().getAbsolutePath());
+            }
+        });
+        */
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+                getFile(root);
             }
         });
     }
@@ -72,5 +82,21 @@ public class AllFilesActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private List<FileInfo> getFile(File dir) {
+        File[] listFile = dir.listFiles();
+        if (listFile != null && listFile.length > 0) {
+            for (int i = 0; i < listFile.length; i++) {
+                if (listFile[i].isDirectory()) {
+                    getFile(listFile[i]);
+                } else {
+                    if (listFile[i].getName().endsWith(".pdf")) {
+                        fileInfoList.add(new FileInfo(listFile[i].getName(), listFile[i].toURI().toString()));
+                    }
+                }
+            }
+        }
+        return fileInfoList;
     }
 }
