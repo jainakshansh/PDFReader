@@ -3,7 +3,6 @@ package com.madhouseapps.pdfreader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -48,51 +47,19 @@ public class AllFilesActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                initList(Environment.getExternalStorageDirectory().getAbsolutePath());
-            }
-        });
-        */
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-                getFile(root);
-            }
-        });
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+        getFiles(file);
     }
 
-    private void initList(String path) {
-        try {
-            File file = new File(path);
-            File[] fileArr = file.listFiles();
-            for (File file1 : fileArr) {
-                if (file1.isDirectory()) {
-                    initList(file1.getAbsolutePath());
+    private List<FileInfo> getFiles(File dir) {
+        File[] filesList = dir.listFiles();
+        if (filesList != null && filesList.length > 0) {
+            for (int i = 0; i < filesList.length; i++) {
+                if (filesList[i].isDirectory()) {
+                    getFiles(filesList[i]);
                 } else {
-                    if (file1.getName().endsWith(".pdf")) {
-                        fileInfoList.add(new FileInfo(file1.getName(), file1.toURI().toString()));
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private List<FileInfo> getFile(File dir) {
-        File[] listFile = dir.listFiles();
-        if (listFile != null && listFile.length > 0) {
-            for (int i = 0; i < listFile.length; i++) {
-                if (listFile[i].isDirectory()) {
-                    getFile(listFile[i]);
-                } else {
-                    if (listFile[i].getName().endsWith(".pdf")) {
-                        fileInfoList.add(new FileInfo(listFile[i].getName(), listFile[i].toURI().toString()));
+                    if (filesList[i].getName().endsWith(".pdf")) {
+                        fileInfoList.add(new FileInfo(filesList[i].getName(), filesList[i].toURI().toString()));
                     }
                 }
             }

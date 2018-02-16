@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -36,6 +37,7 @@ public class ReadingActivity extends AppCompatActivity {
             }
         } else if (uriIntent.getExtras() != null) {
             fileUri = uriIntent.getStringExtra("fileUri");
+            Log.d("ADebug", fileUri);
         } else {
             Toast.makeText(this, "File Not Found!", Toast.LENGTH_SHORT).show();
         }

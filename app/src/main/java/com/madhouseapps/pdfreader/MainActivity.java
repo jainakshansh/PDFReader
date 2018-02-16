@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.fab_create_pdf:
+                        permissionCodeLogic();
                         startActivity(new Intent(getApplicationContext(), CreatePDFActivity.class));
                         break;
                     case R.id.show_all_files:
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
                         break;
                     case R.id.image_to_pdf:
+                        permissionCodeLogic();
                         startActivity(new Intent(getApplicationContext(), ImageToPDFActivity.class));
                         break;
                     case R.id.rate_app:

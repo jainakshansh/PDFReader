@@ -78,7 +78,7 @@ public class CreatePDFActivity extends AppCompatActivity {
     }
 
     private void createFile(PdfDocument document, String pdfName) {
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             File folder = new File(Environment.getExternalStorageDirectory(), "PDFReader MadHouse");
             if (!folder.exists()) {
