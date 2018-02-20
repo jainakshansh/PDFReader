@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -66,9 +67,10 @@ public class CreatePDFActivity extends AppCompatActivity {
 
                 document.finishPage(page);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
                 String pdfName = titleInput.getText().toString() + sdf.format(Calendar.getInstance().getTime()) + ".pdf";
                 if (!contentInput.getText().toString().trim().isEmpty()) {
+                    Log.d("ADebug", "Content present condition");
                     createFile(document, pdfName);
                 } else {
                     Toast.makeText(CreatePDFActivity.this, "Cannot save empty PDF file!", Toast.LENGTH_SHORT).show();
@@ -82,6 +84,7 @@ public class CreatePDFActivity extends AppCompatActivity {
         try {
             File folder = new File(Environment.getExternalStorageDirectory(), "PDFReader MadHouse");
             if (!folder.exists()) {
+                Log.d("ADebug", "Checking if folder exists");
                 folder.mkdirs();
             }
             File outputFile = new File(folder, pdfName);
@@ -89,6 +92,7 @@ public class CreatePDFActivity extends AppCompatActivity {
             fos = new FileOutputStream(outputFile);
             document.writeTo(fos);
             Toast.makeText(CreatePDFActivity.this, "File created successfully!", Toast.LENGTH_SHORT).show();
+            Log.d("ADebug", "File created successfully!");
 
             //Opening the recently saved file.
             Intent openIntent = new Intent(getApplicationContext(), ReadingActivity.class);
