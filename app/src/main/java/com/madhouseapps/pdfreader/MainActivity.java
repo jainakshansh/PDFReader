@@ -153,6 +153,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         recentFiles(null, null);
+
+        /*
+        Handling the intent from the AllFiles to store the recent values and sending user ahead to the Reading Activity.
+         */
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            String uri = intent.getStringExtra("fileUri");
+            String title = intent.getStringExtra("fileTitle");
+            recentFiles(Uri.parse(uri), title);
+            Intent readIntent = new Intent(getApplicationContext(), ReadingActivity.class);
+            readIntent.putExtra("fileUri", uri);
+            startActivity(readIntent);
+        }
     }
 
     private void render() {

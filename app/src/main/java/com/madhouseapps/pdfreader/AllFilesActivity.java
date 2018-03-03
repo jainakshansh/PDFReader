@@ -41,8 +41,9 @@ public class AllFilesActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("fileUri", fileInfoList.get(i).getUri());
+                intent.putExtra("fileTitle", fileInfoList.get(i).getName());
                 startActivity(intent);
             }
         });
