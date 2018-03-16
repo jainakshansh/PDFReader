@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -14,7 +13,7 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 public class ReadingActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private String fileUri;
+    private String fileUri, fileTitle;
     private Toolbar toolbar;
 
     @Override
@@ -37,10 +36,11 @@ public class ReadingActivity extends AppCompatActivity {
             }
         } else if (uriIntent.getExtras() != null) {
             fileUri = uriIntent.getStringExtra("fileUri");
-            Log.d("ADebug", fileUri);
+            fileTitle = uriIntent.getStringExtra("fileTitle");
         } else {
             Toast.makeText(this, "File Not Found!", Toast.LENGTH_SHORT).show();
         }
+        getSupportActionBar().setTitle(fileTitle);
         pdfView.fromUri(Uri.parse(fileUri))
                 .enableSwipe(true)
                 .swipeHorizontal(false)

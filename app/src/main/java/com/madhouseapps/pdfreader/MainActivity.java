@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("PDF Reader : MadHouse");
+            getSupportActionBar().setTitle("PDF Creator & Reader");
         }
         /*
         Reading the permission status stored in the shared preferences.
@@ -95,7 +96,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(new Intent(getApplicationContext(), CreatePDFActivity.class));
                         break;
                     case R.id.show_all_files:
-                        Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Loading all PDF files on device.\nPlease Wait ... ", Toast.LENGTH_LONG).show();
+                            }
+                        });
                         permissionCodeLogic();
                         startActivity(new Intent(getApplicationContext(), AllFilesActivity.class));
                         break;
@@ -107,6 +113,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.madhouseapps.pdfreader")));
                         break;
                     case R.id.share_app:
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey, check out this awesome PDF Creator and Reader by MadHouse at: https://play.google.com/store/apps/details?id=com.madhouseapps.pdfreader");
+                        shareIntent.setType("text/plain");
+                        startActivity(shareIntent);
                         break;
                     case R.id.more_apps:
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=MadHouse")));
@@ -158,13 +169,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Handling the intent from the AllFiles to store the recent values and sending user ahead to the Reading Activity.
          */
         Intent intent = getIntent();
-        if (intent.getExtras() != null) {
+        if (intent.getExtras() == null) {
+            recentFiles(null, null);
+        } else {
             String uri = intent.getStringExtra("fileUri");
             String title = intent.getStringExtra("fileTitle");
-            recentFiles(Uri.parse(uri), title);
-            Intent readIntent = new Intent(getApplicationContext(), ReadingActivity.class);
-            readIntent.putExtra("fileUri", uri);
-            startActivity(readIntent);
+            if (uri != null && title != null) {
+                recentFiles(Uri.parse(uri), title);
+                Intent readIntent = new Intent(getApplicationContext(), ReadingActivity.class);
+                readIntent.putExtra("fileUri", uri);
+                readIntent.putExtra("fileTitle", title);
+                startActivity(readIntent);
+            } else {
+                recentFiles(null, null);
+            }
         }
     }
 
@@ -246,38 +264,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.apply();
 
             final String finalRes = res1;
+            final String finalTitle = title1;
             recent1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                     intent.putExtra("fileUri", finalRes);
+                    intent.putExtra("fileTitle", finalTitle);
                     startActivity(intent);
                 }
             });
             final String finalRes1 = res2;
+            final String finalTitle1 = title2;
             recent2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                     intent.putExtra("fileUri", finalRes1);
+                    intent.putExtra("fileTitle", finalTitle1);
                     startActivity(intent);
                 }
             });
             final String finalRes2 = res3;
+            final String finalTitle2 = title3;
             recent3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                     intent.putExtra("fileUri", finalRes2);
+                    intent.putExtra("fileTitle", finalTitle2);
                     startActivity(intent);
                 }
             });
             final String finalRes3 = res4;
+            final String finalTitle3 = title4;
             recent4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                     intent.putExtra("fileUri", finalRes3);
+                    intent.putExtra("fileTitle", finalTitle3);
                     startActivity(intent);
                 }
             });
@@ -293,12 +319,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             title4 = preferences.getString("title4", null);
 
             final String finalRes = res1;
+            final String finalTitle4 = title1;
             recent1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (finalRes != null) {
                         Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                         intent.putExtra("fileUri", finalRes);
+                        intent.putExtra("fileTitle", finalTitle4);
                         startActivity(intent);
                     } else {
                         Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
@@ -306,12 +334,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             final String finalRes1 = res2;
+            final String finalTitle5 = title2;
             recent2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (finalRes1 != null) {
                         Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                         intent.putExtra("fileUri", finalRes1);
+                        intent.putExtra("fileTitle", finalTitle5);
                         startActivity(intent);
                     } else {
                         Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
@@ -319,12 +349,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             final String finalRes2 = res3;
+            final String finalTitle6 = title3;
             recent3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (finalRes2 != null) {
                         Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                         intent.putExtra("fileUri", finalRes2);
+                        intent.putExtra("fileTitle", finalTitle6);
                         startActivity(intent);
                     } else {
                         Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();
@@ -332,12 +364,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             final String finalRes3 = res4;
+            final String finalTitle7 = title4;
             recent4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (finalRes3 != null) {
                         Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                         intent.putExtra("fileUri", finalRes3);
+                        intent.putExtra("fileTitle", finalTitle7);
                         startActivity(intent);
                     } else {
                         Toast.makeText(MainActivity.this, "Recent not found!", Toast.LENGTH_SHORT).show();

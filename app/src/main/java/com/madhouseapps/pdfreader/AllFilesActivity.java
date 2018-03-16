@@ -45,6 +45,7 @@ public class AllFilesActivity extends AppCompatActivity {
                 intent.putExtra("fileUri", fileInfoList.get(i).getUri());
                 intent.putExtra("fileTitle", fileInfoList.get(i).getName());
                 startActivity(intent);
+                finish();
             }
         });
 
